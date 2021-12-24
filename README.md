@@ -43,12 +43,12 @@ details:
   - descr: オランジーナ 420ml
     unit_price: 140
     amount: 89
-    isFixTaxIncluded: false
+    isFixTaxIncluded: no
 
   - descr: 国営セコム ビル(テナント借り)建物警備サービス 月額基本料金
     unit_price: 12800
     amount: 1
-    isFixTaxIncluded: false
+    isFixTaxIncluded: no
 ```
 
 Execute python script.
