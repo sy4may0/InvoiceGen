@@ -56,6 +56,11 @@ Execute python script.
 python invoke.py ./invoice.yml
 ```
 
+HTML file generate to following path. You can print it with enable **background graphics**.
+```
+html/invoice.html
+```
+
 ### Dependency
 - PyYAML
 - jinja2
