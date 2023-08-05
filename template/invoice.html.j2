@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>INVOICE</title>
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+ </head>
+ <style type="text/css">
+  @media print {
+   .navbar, .table-dark{
+    background-color: #292b2c !important;
+   }
+   body { 
+    zoom: .8;
+   }
+   .container-printfix {
+     width: 980px !important;
+   }
+  }
+ </style>
+ <body>
+  <div class="container container-printfix">
+   <div class="row">
+    <nav class="navbar navbar-dark bg-dark">
+     <div class="navbar-brand">
+      <div class="container-fluid">
+       <div>
+        <h1 class="display-4">INVOICE</h1><h1 class="display-6">請求書</h1></a>
+       </div>
+      </div>
+     </div>
+     <div class="navbar-text" style="margin-top:4em; text-align: right;">
+      <span>{{ date }}<span>
+      <br>
+      <span>No. {{ number }}<span>
+     </div>
+    </nav>
+    <hr class="py-3">
+   </div>
+   <div class="row">
+    <div class="col-8 ">
+      <h5 class="display-6">請求先/Invoice to</h5>
+      <hr>
+      <div class="container">
+       <dl class="row">
+        <dt class="col-4 lead">宛名/Name</dt>
+        <dd class="col-8 lead">
+         {{ to.name }} 
+        </dd>
+        <dt class="col-4 lead">住所/Address</dt>
+        <dd class="col-8 lead">
+          {{ to.address }}
+        </dd>
+        <dt class="col-4 lead">連絡先/TEL</dt>
+        <dd class="col-8 lead">
+          [TEL] {{ to.tel }}<br>
+          [FAX] {{ to.fax }}<br>
+        </dd>
+        <dt class="col-4 lead">メールアドレス/Email</dt>
+        <dd class="col-8 lead">
+          {{ to.email }}  
+        </dd>
+       </dl>
+      </div>
+    </div>
+   </div>
+   <div class="row">
+    <nav class="navbar navbar-dark bg-dark">
+     <div class="navbar-brand">
+      <div class="container-fluid">
+       <div>
+        ご請求金額/Total:
+       </div>
+      </div>
+     </div>
+     <div class="navbar-brand">
+      <div class="container-fluid">
+       <div>
+        <strong>\{{ "{:,}".format(total) }}</strong>
+       </div>
+      </div>
+     </div>
+    </nav>
+    <hr class="py-1" style="margin:0px">
+    <table class="table">
+     <thead class="table-dark">
+      <tr>
+       <th scope="col">#</th>
+       <th scope="col">説明/Description</th>
+       <th scope="col">単価/Unit Price</th>
+       <th scope="col">数量/Amount</th>
+       <th scope="col">金額/Total Price</th>
+      </tr>
+     </thead>
+     <tbody>
+{% for item in detail %}
+      <tr>
+       <th scope="row">{{ loop.index }}</td>
+       <td>{{ item.item }}</td>
+       <td>\{{ "{:,}".format(item.unitPrice) }}</td>
+       <td>{{ item.amount }}</td>
+       <td>\{{ "{:,}".format(item.itemTotalPrice) }}</td>
+      </tr>
+{% endfor %}
+     </tbody>
+    </table>
+   </div>
+
+   <div class="row">
+
+    <div class="col-6">
+    </div>
+
+    <div class="col-6">
+     <div class="container">
+      <dl class="row">
+       <dt class="col-6 lead">小計/Sub Total</dt>
+       <dd class="col-6 lead">
+        \{{ "{:,}".format(subTotal) }}
+       </dd>
+       <dt class="col-6 lead">消費税/Tax</dt>
+       <dd class="col-6 lead">
+        {{ (taxRate * 100) }}%
+       </dd>
+{% if includeWithHold %}
+       <dt class="col-6 lead">源泉徴収税/Withholding Tax</dt>
+       <dd class="col-6 lead">
+        - {{ (withHoldRate * 100) }}%
+       </dd>
+{% endif %}
+       <hr>
+       <dt class="col-6 lead"><strong>合計/Total</strong></dt>
+       <dd class="col-6 lead">
+        <strong>\{{ "{:,}".format(total) }}</strong>
+       </dd>
+      </dl>
+     </div>
+    </div>
+   </div>
+
+   <div class="row">
+    <div class="col-7">
+      <label for="exampleFormControlTextarea1" class="form-label">支払い/Payment</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" readonly>
+お支払いは下記銀行口座へ振込くださいますようお願い申し上げます。
+
+{{ bank.name }}
+{{ bank.accountType }} {{ bank.accountNumber }}
+口座名義 {{ bank.accountHolder }}</textarea>
+    </div>
+   </div>
+
+{% if renderFrom %}
+   <div class="row">
+    <hr style="margin-top:2em">
+    <div class="container">
+     <div class="row">
+      <div class="col-6">
+       <h6>{{ from.name }}</h6>
+       <p>
+        {{ from.address }}<br>
+        [TEL] {{ from.tel }}  [FAX] {{ from.fax }} <br>
+        [Email] {{ from.email }}
+       </p>
+      </div>
+     </div>
+    </div>
+   </div>
+{% endif %}
+ 
+
+  </div>
+ </body>
+</html>
+ 
